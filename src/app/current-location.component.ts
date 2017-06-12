@@ -25,7 +25,6 @@ export class CurrentLocationComponent {
 
   getCurrentLocation() {
     if (navigator.geolocation) {
-      console.log("aaaa");
       navigator.geolocation.getCurrentPosition(position => {
         console.log(position);
         this.change.emit(position.coords.latitude + "," + position.coords.longitude);
