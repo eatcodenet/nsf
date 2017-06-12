@@ -5,43 +5,30 @@ import {STATIONS} from './stations';
 export class StationService {
 
   getNearestStation(lat: number, lon: number): string {
-    var distances = this.stations.filter((station: any) => {
+    const distances = this.stations.filter((station: any) => {
       return station.lat != 0 && station.lon != 0
     }).map((station: any) => {
-      var d = this.distance(lat, lon, station.lat, station.lon);
-      return [station, d];
+      return [station, this.distance(lat, lon, station.lat, station.lon)];
     })
-    var min = Number.MAX_VALUE;
-    var s = null;
+    let min = Number.MAX_VALUE;
+    let nearestStation = null;
     for (let tuple of distances) {
-      console.log(tuple[0].name, tuple[1]);
       if (tuple[1] < min) {
         min = tuple[1];
-        s = tuple[0];
+        nearestStation = tuple[0];
       }
     }
-    return s.name + " (" + s.lat + "," + s.lon + ")";
-  }
-
-
-  toRad(x: number) {
-    return x * (Math.PI / 180);
+    return nearestStation.name + " (" + nearestStation.lat + "," + nearestStation.lon + ")";
   }
 
   distance(lat1: number, lon1: number, lat2: number, lon2: number) {
+    const p = 0.017453292519943295; // Math.PI / 180
+    const c = Math.cos;
+    const a = 0.5 - c((lat2 - lat1) * p) / 2 +
+      c(lat1 * p) * c(lat2 * p) *
+      (1 - c((lon2 - lon1) * p)) / 2;
 
-    var R = 6371000; // metres
-    var φ1 = this.toRad(lat1);
-    var φ2 = this.toRad(lat2);
-    var Δφ = this.toRad(lat2);
-    var Δλ = this.toRad(lon2);
-
-    var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) * Math.cos(φ2) *
-      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    return R * c;
+    return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
   }
 
   private stations = STATIONS;
