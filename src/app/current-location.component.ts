@@ -21,19 +21,19 @@ export class CurrentLocationComponent {
   name = 'CurrentLocation';
 
   @Output()
-  change: EventEmitter<string> = new EventEmitter();
+  change: EventEmitter<Coordinates> = new EventEmitter();
 
   getCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         console.log(position);
-        this.change.emit(position.coords.latitude + "," + position.coords.longitude);
+        this.change.emit(position.coords);
       }, error2 => {
-        this.change.emit("boom!: " + error2.message);
+        throw new Error(error2.message);
       })
     }
     else {
-      this.change.emit("geolocation unsupported");
+      throw new Error("geolocation unsupported");
     }
   }
 

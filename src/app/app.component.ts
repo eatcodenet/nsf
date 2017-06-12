@@ -18,9 +18,9 @@ export class AppComponent {
   currentLocation: string = null;
   nearestStation: Object = null;
 
-  updateMessage(latLon: string) {
-    this.nearestStation = this.stationService.getNearestStation(latLon);
-    this.currentLocation = latLon;
+  updateMessage(coords: Coordinates) {
+    this.nearestStation = this.stationService.getNearestStation(coords.latitude, coords.longitude);
+    this.currentLocation = coords.latitude + "," + coords.longitude;
   }
 
   constructor(private stationService: StationService) {
