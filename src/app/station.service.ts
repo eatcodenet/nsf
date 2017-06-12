@@ -6,7 +6,7 @@ export class StationService {
 
   getNearestStation(lat: number, lon: number): string {
     var distances = this.stations.filter((station: any) => {
-      return station.lat > 0 && station.lon > 0
+      return station.lat != 0 && station.lon != 0
     }).map((station: any) => {
       var d = this.distance(lat, lon, station.lat, station.lon);
       return [station, d];
