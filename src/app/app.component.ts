@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {StationService} from './station.service';
+import {Station} from './stations';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,7 @@ import {StationService} from './station.service';
   <current-location (change)="updateMessage($event)"></current-location>
   <div>
     <p>Current location is {{currentLocation}}</p>
-    <p>Nearest train station is {{nearestStation}}</p>
+    <p *ngIf="nearestStation">Nearest train station is {{nearestStation.name}}</p>
   </div>
   `,
   providers: [StationService]
@@ -15,8 +16,8 @@ import {StationService} from './station.service';
 export class AppComponent {
   name = 'NsfApplication';
 
-  currentLocation: string = null;
-  nearestStation: Object = null;
+  currentLocation: string;
+  nearestStation: Station;
 
   updateMessage(coords: Coordinates) {
     this.nearestStation = this.stationService.getNearestStation(coords.latitude, coords.longitude);

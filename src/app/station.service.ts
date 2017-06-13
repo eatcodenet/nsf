@@ -14,7 +14,7 @@ class Tuple {
 @Injectable()
 export class StationService {
 
-  getNearestStation(lat: number, lon: number): string {
+  getNearestStation(lat: number, lon: number): Station {
     const distances: Tuple[] = this.stations.map((station: Station) => {
       return new Tuple(station, this.calculateDistance(lat, lon, station.lat, station.lon));
     })
@@ -27,7 +27,7 @@ export class StationService {
         min = tuple.distance;
       }
     }
-    return nearestStation.name + " (" + nearestStation.lat + "," + nearestStation.lon + ")";
+    return nearestStation;
   }
 
   calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
