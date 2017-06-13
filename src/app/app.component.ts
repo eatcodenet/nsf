@@ -8,7 +8,11 @@ import {Station} from './stations';
   <current-location (change)="updateMessage($event)"></current-location>
   <div>
     <p>Current location is {{currentLocation}}</p>
-    <p *ngIf="nearestStation">Nearest train station is {{nearestStation.name}}</p>
+    <p *ngIf="nearestStation">
+      Nearest train station is {{nearestStation.name}} 
+      <br>
+      <font size="-1">{{nearestStation.lat}},{{nearestStation.lon}}</font>
+    </p>
   </div>
   `,
   providers: [StationService]
