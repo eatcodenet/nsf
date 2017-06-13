@@ -10,8 +10,7 @@ import {Station} from './stations';
     <p>Current location is {{currentLocation}}</p>
     <p *ngIf="nearestStation">
       Nearest train station is {{nearestStation.name}} 
-      <br>
-      <font size="-1">{{nearestStation.lat}},{{nearestStation.lon}}</font>
+      <br>{{nearestStation.lat}},{{nearestStation.lon}}
     </p>
   </div>
   `,
