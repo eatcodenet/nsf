@@ -16,7 +16,7 @@ export class StationService {
 
   getNearestStation(lat: number, lon: number): string {
     const distances: Tuple[] = this.stations.map((station: Station) => {
-      return new Tuple(station, this.distance(lat, lon, station.lat, station.lon));
+      return new Tuple(station, this.calculateDistance(lat, lon, station.lat, station.lon));
     })
 
     let min: number = Number.MAX_VALUE;
@@ -30,7 +30,7 @@ export class StationService {
     return nearestStation.name + " (" + nearestStation.lat + "," + nearestStation.lon + ")";
   }
 
-  distance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const p = 0.017453292519943295; // Math.PI / 180
     const c = Math.cos;
     const a = 0.5 - c((lat2 - lat1) * p) / 2 +
