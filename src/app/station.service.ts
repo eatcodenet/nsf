@@ -20,6 +20,7 @@ export class StationService {
     }).sort((l: Tuple, r: Tuple) => {
       return l.distance - r.distance;
     });
+    console.log(sortedDistances[0].station.name, sortedDistances[0].distance);
     return sortedDistances[0].station;
   }
 
