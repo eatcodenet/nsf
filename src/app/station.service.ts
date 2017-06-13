@@ -15,19 +15,12 @@ class Tuple {
 export class StationService {
 
   getNearestStation(lat: number, lon: number): Station {
-    const distances: Tuple[] = this.stations.map((station: Station) => {
+    const sortedDistances: Tuple[] = this.stations.map((station: Station) => {
       return new Tuple(station, this.calculateDistance(lat, lon, station.lat, station.lon));
-    })
-
-    let min: number = Number.MAX_VALUE;
-    let nearestStation: Station = null;
-    for (let tuple of distances) {
-      if (tuple.distance < min) {
-        nearestStation = tuple.station;
-        min = tuple.distance;
-      }
-    }
-    return nearestStation;
+    }).sort((l: Tuple, r: Tuple) => {
+      return l.distance - r.distance;
+    });
+    return sortedDistances[0].station;
   }
 
   calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
