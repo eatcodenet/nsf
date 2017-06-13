@@ -7,11 +7,13 @@ import {Station} from './stations';
   template: `<h1>Nearest Station Finder</h1>
   <current-location (change)="updateMessage($event)"></current-location>
   <div>
-    <p>Current location is {{currentLocation}}</p>
-    <p *ngIf="nearestStation">
-      Nearest train station is {{nearestStation.name}} 
-      <br>{{nearestStation.lat}},{{nearestStation.lon}}
-    </p>
+    <p>Current location is {{currentCoordsText}}</p>
+    <div *ngIf="nearestStation">
+      <p>Nearest train station is {{nearestStation.name}} <b>({{nearestStation.lat}},{{nearestStation.lon}})</b></p>
+      <map [centreLatitude]="nearestStation.lat" [centreLongitude]="nearestStation.lon"
+           [currentLatitude]="currentCoords.latitude" [currentLongitude]="currentCoords.longitude"
+           [centreName]="nearestStation.name"></map>
+    </div>
   </div>
   `,
   providers: [StationService]
@@ -19,12 +21,14 @@ import {Station} from './stations';
 export class AppComponent {
   name = 'NsfApplication';
 
-  currentLocation: string;
+  currentCoordsText: string;
+  currentCoords: Coordinates;
   nearestStation: Station;
 
   updateMessage(coords: Coordinates) {
     this.nearestStation = this.stationService.getNearestStation(coords.latitude, coords.longitude);
-    this.currentLocation = coords.latitude + "," + coords.longitude;
+    this.currentCoordsText = coords.latitude + "," + coords.longitude;
+    this.currentCoords = coords;
   }
 
   constructor(private stationService: StationService) {
